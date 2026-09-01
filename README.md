@@ -132,11 +132,11 @@ on the board.
 
 | part | used here | alternatives |
 |------|-----------|--------------|
-| board | [Waveshare ESP32-S3-LCD-1.3](https://www.waveshare.com/product/esp32-s3-lcd-1.3.htm), 240x240 ST7789 | any ESP32-S3 with an SPI LCD; pins live in `firmware/platformio.ini` |
-| microphone | PDM MEMS breakout | this particular microphone has worked well for me with very clear sound. I2S microphones can also work|
+| board | [Waveshare ESP32-S3-LCD-1.3](https://www.waveshare.com/product/esp32-s3-lcd-1.3.htm), 240×240 ST7789 | any ESP32-S3 with an SPI LCD; pins live in `firmware/platformio.ini` |
+| microphone | [Adafruit PDM MEMS breakout](https://www.adafruit.com/product/3492) | this particular microphone has worked well for me with very clear sound. I2S microphones can also work |
 | amplifier | PAM8302 mono class-D | worked for the prototype, but it is not what I would pick from scratch. Since the ESP32-S3 has no DAC, a digital amplifier such as an I2S amp would probably be easier |
-| speaker | 4-8 ohm, ~2 W | anything in that range |
-| battery | single-cell LiPo | any single-cell LiPo |
+| speaker | 4–8 Ω, ~2 W, 20 × 30 × 6.8 mm | anything in that range |
+| battery | LiPo, 3.7 V, 620 mAh, 40 × 25 × 6 mm, Molex 1.25 mm | any single-cell LiPo |
 | switch | KCD5-102 rocker | any matching switch |
 
 ## Wiring
