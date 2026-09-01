@@ -12,7 +12,7 @@ It sits with bored eyes and listens. When it hears **yes**, **no** or **happy**
 it shows the matching expression, plays a matching sound for five seconds, and
 then goes back to bored. The screen also shows the battery percentage and charging when USB is in, so it runs as a standalone device.
 
-Speech recognition and all reaction sounds run on the device. The growl, chirp
+Speech recognition and all reaction sounds run on the device. The growl, meowing
 and purr are custom synthesized in firmware rather than played from recorded
 clips. A small neural network takes 127 ms to decide which word it heard.
 
@@ -149,9 +149,9 @@ cell voltage from IO6.
 
 | Part | Pin |
 |------|-----|
-| LCD | DC 38, CS 39, SCLK 40, MOSI 41, RST 42, backlight 20 |
-| microphone | CLK 7, DATA 8, SEL to GND |
-| amplifier | input from GPIO12, enable on GPIO10 |
+| LCD | DC GPIO38, CS GPIO39, SCLK GPIO40, MOSI GPIO41, RST GPIO42, backlight GPIO20 |
+| microphone | CLK GPIO7, DATA GPIO8, SEL to GND |
+| amplifier | A+ GPIO12, SD GPIO10, A- to GND, VIN to battery + |
 | battery sense | GPIO6 |
 
 Two things are easy to get wrong:
