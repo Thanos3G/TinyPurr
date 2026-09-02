@@ -53,8 +53,23 @@ static const uint32_t reactMs[MOOD_COUNT] = { 0, REACT_MS, REACT_MS, REACT_MS };
 static Mood     gMood      = MOOD_BORED;
 static uint32_t gReactEnds = 0;
 
+// The screen goes dark after ten minutes of inactivity
+static const uint32_t BACKLIGHT_MS = 10UL * 60UL * 1000UL;
+static uint32_t gLastReact = 0;
+static bool     gBacklightOn = true;
+
+static void backlight(bool on)
+{
+    if (on == gBacklightOn) return;
+    gBacklightOn = on;
+    digitalWrite(PIN_LCD_BL, on ? HIGH : LOW);
+}
+
 static void react(Mood m)
 {
+    gLastReact = millis();
+    backlight(true);
+
     gMood      = m;
     gReactEnds = millis() + reactMs[m];
     switch (m) {
@@ -304,6 +319,7 @@ void setup()
     drawEye(false, MOOD_BORED, 1.0f, 0, 0, 0);
 
     digitalWrite(PIN_LCD_BL, HIGH);
+    gLastReact = millis();          // the ten minutes start from boot
     Serial.println("[cat-eyes] bored and listening");
 
     // Both want I2S0 and only one PDM port exists, so they take turns
@@ -365,6 +381,8 @@ void loop()
 
     drawEye(true,  gMood, lid, gx, gy, anim);
     drawEye(false, gMood, lid, gx, gy, anim);
+
+    if (gBacklightOn && millis() - gLastReact >= BACKLIGHT_MS) backlight(false);
 
     // Once a second is plenty: the reading is heavily smoothed.
     static uint32_t battAt = 0;

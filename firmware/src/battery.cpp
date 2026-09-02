@@ -54,25 +54,34 @@ static int percentFor(float v)
     return 0;
 }
 
+// Set while the amplifier is running.
+static bool     gBusy = false;
+static uint32_t gBusyUntil = 0;
+
 float batteryVolts()
 {
     uint32_t mv = 0;
     for (int i = 0; i < SAMPLES; i++) mv += analogReadMilliVolts(PIN_BATT);
     const float v = (mv / (float)SAMPLES) / 1000.0f * DIVIDER * CALIBRATION;
 
-    // Heavy smoothing on purpose. The amplifier draws in bursts and pulls the cell down while a sound plays.
-    if (gVolts <= 0.0f) gVolts = v;            
+    gRaw = v;
+
+    // The amplifier draws in bursts and pulls the cell down, shuldnt show in display
+    if (gBusy || (int32_t)(millis() - gBusyUntil) < 0) return gVolts;
+
+    // Heavy smoothing on purpose.
+    if (gVolts <= 0.0f) gVolts = v;
     else                gVolts += 0.02f * (v - gVolts);
 
- 
-    gRaw = v;
     return gVolts;
 }
 
 int batteryPercent()
 {
-    // Always sample. 
-    return percentFor(batteryVolts());
+    // Reads what batteryVolts() last set rather than sampling again. Sampling
+    // here too advanced the filter twice per update, halving its time constant.
+    if (gVolts <= 0.0f) batteryVolts();
+    return percentFor(gVolts);
 }
 
 // Charging is inferred, since the board exposes no charger status line.
@@ -88,8 +97,6 @@ static int        gHistN = 0;
 static uint32_t   gHistAt = 0;
 static bool       gCharging = false;
 static bool       gKnown = false;
-static bool       gBusy = false;
-static uint32_t   gBusyUntil = 0;
 
 void batterySetBusy(bool busy)
 {
