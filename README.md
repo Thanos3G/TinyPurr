@@ -10,7 +10,7 @@
 
 It sits with bored eyes and listens. When it hears **yes**, **no** or **happy**
 it shows the matching expression, plays a matching sound for five seconds, and
-then goes back to bored. The screen also shows the battery percentage and charging when USB is in, so it runs as a standalone device.
+then goes back to bored. The screen also shows the battery percentage and charging when USB is in, so it runs as a standalone device. The cat goes to sleep and screen turns black after 10 minutes of inactivity, it wakes up again with one of the keywords above.
 
 Speech recognition and all reaction sounds run on the device. The growl, meowing
 and purr are custom synthesized in firmware rather than played from recorded
